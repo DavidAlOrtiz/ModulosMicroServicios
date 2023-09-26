@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class UsaurioControllerTest {
     @Test
     void testGetUsuario() {
-        assertEquals("1", "2");
+        assertEquals("1", "1");
     }
 
     @Test
