@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dva.springcolud.msvc.usuarios.models.entities.Usuario;
 import com.dva.springcolud.msvc.usuarios.services.IUsuriosServices;
-
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/usuario")
@@ -55,6 +52,7 @@ public class UsaurioController {
             usuCon.setNombre(usuario.getNombre());
             usuCon.setPassword(usuario.getPassword());
             usuCon.setEmail(usuario.getEmail());
+            System.err.println(usuCon);
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuCon));
         }
         return ResponseEntity.notFound().build();

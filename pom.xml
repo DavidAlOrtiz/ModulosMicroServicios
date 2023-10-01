@@ -15,6 +15,7 @@
   
   <modules>
 	  <module>msvc-uusario</module>
+    <module>ms-cursos</module>
   </modules>
 
   <name>curso-cubernates</name>
