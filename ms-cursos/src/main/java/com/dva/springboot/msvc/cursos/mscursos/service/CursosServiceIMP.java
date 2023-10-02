@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
 
 import com.dva.springboot.msvc.cursos.mscursos.DAO.CusrosDAO;
 import com.dva.springboot.msvc.cursos.mscursos.entities.models.Curso;
 
+@Service
 public class CursosServiceIMP implements ICursosService {
 
     @Autowired

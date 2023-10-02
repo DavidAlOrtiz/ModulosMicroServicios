@@ -1,12 +1,14 @@
 package com.dva.springboot.msvc.cursos.mscursos.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dva.springboot.msvc.cursos.mscursos.entities.models.Curso;
 import com.dva.springboot.msvc.cursos.mscursos.service.ICursosService;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class CursoController {
@@ -39,7 +43,10 @@ public class CursoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Curso curso) {
+    public ResponseEntity<?> save(@Valid @RequestBody Curso curso, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(this.validarCampos(result));
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(cursosService.save(curso));
@@ -50,7 +57,10 @@ public class CursoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Curso curso) {
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Curso curso, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(this.validarCampos(result));
+        }
         if (cursosService.update(id, curso) != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(curso);
         }
@@ -65,5 +75,14 @@ public class CursoController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    private Map<String, String> validarCampos(BindingResult result) {
+        Map<String, String> errores = new HashMap<>();
+        result.getAllErrors().forEach(p -> {
+            errores.put(p.getObjectName(),
+                    "Error en el objeto " + p.getObjectName().concat(" " + p.getDefaultMessage()));
+        });
+        return errores;
     }
 }
