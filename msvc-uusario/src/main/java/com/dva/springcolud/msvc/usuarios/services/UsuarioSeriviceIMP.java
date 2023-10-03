@@ -40,4 +40,9 @@ public class UsuarioSeriviceIMP implements IUsuriosServices {
         repository.deleteById(id);
     }
 
+    @Override
+    public Optional<Usuario> buscarPorEmail(Usuario usuario) {
+        return repository.getByEmail(usuario);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.dva.springcolud.msvc.usuarios.controllers;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,11 @@ public class UsaurioController {
 
     @PostMapping
     public ResponseEntity<?> guardar(@Valid @RequestBody Usuario usuario, BindingResult result) {
+
+        if (usuarioService.buscarPorEmail(usuario).isPresent()) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", "El email ya existe"));
+        }
+
         if (result.hasErrors()) {
             System.err.println("Entra al metodo");
             return ResponseEntity.accepted().body(this.mensajesError(result));
@@ -62,6 +68,12 @@ public class UsaurioController {
         Optional<Usuario> usuarioConsulta = usuarioService.getbyId(id);
         if (usuarioConsulta.isPresent()) {
             Usuario usuCon = usuarioConsulta.get();
+
+            if (!usuario.getEmail().equals(usuCon.getEmail()) && usuarioService.buscarPorEmail(usuario).isPresent()) {
+                return ResponseEntity.badRequest()
+                        .body(Collections.singletonMap("mensaje", "El email ya existe"));
+            }
+
             usuCon.setNombre(usuario.getNombre());
             usuCon.setPassword(usuario.getPassword());
             usuCon.setEmail(usuario.getEmail());

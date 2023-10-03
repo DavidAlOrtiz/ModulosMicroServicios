@@ -6,11 +6,14 @@ import java.util.Optional;
 import com.dva.springcolud.msvc.usuarios.models.entities.Usuario;
 
 public interface IUsuriosServices {
-    public List<Usuario> getUsuairos();
+    List<Usuario> getUsuairos();
 
-    public Optional<Usuario> getbyId(Long id);
+    Optional<Usuario> getbyId(Long id);
 
-    public Usuario save(Usuario usuario);
+    Usuario save(Usuario usuario);
 
-    public void delete(Long id);
+    void delete(Long id);
+
+    Optional<Usuario> buscarPorEmail(Usuario usuario);
+
 }
