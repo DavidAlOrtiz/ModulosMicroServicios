@@ -42,7 +42,13 @@ public class UsuarioSeriviceIMP implements IUsuriosServices {
 
     @Override
     public Optional<Usuario> buscarPorEmail(Usuario usuario) {
-        return repository.getByEmail(usuario);
+        return repository.porEmail(usuario);
+    }
+
+    // Agregando el metodo extists
+    @Override
+    public boolean emailExiste(String email) {
+        return repository.existsByEmail(email);
     }
 
 }
