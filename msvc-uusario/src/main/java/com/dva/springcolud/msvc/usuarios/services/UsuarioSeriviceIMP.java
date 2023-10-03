@@ -45,6 +45,7 @@ public class UsuarioSeriviceIMP implements IUsuriosServices {
         return repository.porEmail(usuario);
     }
 
+    // Agregando el metodo extists
     @Override
     public boolean emailExiste(String email) {
         return repository.existsByEmail(email);
