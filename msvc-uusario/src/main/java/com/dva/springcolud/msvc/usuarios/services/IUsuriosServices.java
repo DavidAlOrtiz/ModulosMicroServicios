@@ -16,4 +16,6 @@ public interface IUsuriosServices {
 
     Optional<Usuario> buscarPorEmail(Usuario usuario);
 
+    boolean emailExiste(String email);
+
 }
