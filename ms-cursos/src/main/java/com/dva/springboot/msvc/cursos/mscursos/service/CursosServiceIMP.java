@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.stereotype.Service;
 
 import com.dva.springboot.msvc.cursos.mscursos.DAO.CusrosDAO;
+import com.dva.springboot.msvc.cursos.mscursos.entities.Usuario;
 import com.dva.springboot.msvc.cursos.mscursos.entities.models.Curso;
 
 @Service
@@ -44,6 +44,24 @@ public class CursosServiceIMP implements ICursosService {
     @Override
     public void delete(Long id) {
         cursoDao.deleteById(id);
+    }
+
+    @Override
+    public Optional<Usuario> agregarUsuario(Usuario usuario, Long idCurso) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'agregarUsuario'");
+    }
+
+    @Override
+    public Optional<Usuario> crearUsuario(Usuario usuario, Long idCurso) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'crearUsuario'");
+    }
+
+    @Override
+    public Optional<Usuario> eliminarUsuario(Usuario usuario, Long idCurso) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'eliminarUsuario'");
     }
 
 }
