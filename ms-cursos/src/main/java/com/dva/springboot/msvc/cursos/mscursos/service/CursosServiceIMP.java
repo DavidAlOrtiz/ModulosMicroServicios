@@ -5,16 +5,21 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.stereotype.Service;
 
 import com.dva.springboot.msvc.cursos.mscursos.DAO.CusrosDAO;
+import com.dva.springboot.msvc.cursos.mscursos.entities.Usuario;
 import com.dva.springboot.msvc.cursos.mscursos.entities.models.Curso;
+import com.dva.springboot.msvc.cursos.mscursos.entities.models.CursoUsuario;
+import com.dva.springboot.msvc.cursos.mscursos.feingReopository.UsuarioFeingRepo;
 
 @Service
 public class CursosServiceIMP implements ICursosService {
 
     @Autowired
     private CusrosDAO cursoDao;
+
+    @Autowired
+    private UsuarioFeingRepo usuarioFein;
 
     @Override
     public List<Curso> getCursos() {
@@ -44,6 +49,58 @@ public class CursosServiceIMP implements ICursosService {
     @Override
     public void delete(Long id) {
         cursoDao.deleteById(id);
+    }
+
+    @Override
+    public Optional<Usuario> agregarUsuario(Usuario usuario, Long idCurso) {
+        Optional<Curso> o = cursoDao.findById(idCurso);
+        if (o.isPresent()) {
+
+            Usuario usuarioMvs = usuarioFein.getUsuario(idCurso);
+            Curso curso = o.get();
+            CursoUsuario cursoUsuario = new CursoUsuario();
+            cursoUsuario.setUsuarioId(usuarioMvs.getId());
+            curso.agregarUsaurio(cursoUsuario);
+            cursoDao.save(curso);
+            return Optional.of(usuarioMvs);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Usuario> crearUsuario(Usuario usuario, Long idCurso) {
+        Optional<Curso> cursoO = cursoDao.findById(idCurso);
+        if (cursoO.isPresent()) {
+
+            Usuario usuarioCreado = usuarioFein.saveUsaurio(usuario);
+            Curso curso = cursoO.get();
+            CursoUsuario cursoUsuario = new CursoUsuario();
+            cursoUsuario.setUsuarioId(usuarioCreado.getId());
+
+            curso.agregarUsaurio(cursoUsuario);
+            cursoDao.save(curso);
+
+            return Optional.of(usuarioCreado);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Usuario> eliminarUsuario(Usuario usuario, Long idCurso) {
+
+        Optional<Curso> cursoO = cursoDao.findById(idCurso);
+        if (cursoO.isPresent()) {
+
+            Usuario usuarioDb = usuarioFein.getUsuario(idCurso);
+            Curso curso = cursoO.get();
+            CursoUsuario cursoUsuario = new CursoUsuario();
+            cursoUsuario.setUsuarioId(usuario.getId());
+            curso.eliminarUsario(cursoUsuario);
+
+            cursoDao.save(curso);
+            return Optional.of(usuarioDb);
+        }
+        return Optional.empty();
     }
 
 }
