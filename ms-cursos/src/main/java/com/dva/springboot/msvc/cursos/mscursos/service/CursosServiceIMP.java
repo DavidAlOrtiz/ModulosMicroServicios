@@ -69,9 +69,10 @@ public class CursosServiceIMP implements ICursosService {
 
     @Override
     public Optional<Usuario> crearUsuario(Usuario usuario, Long idCurso) {
+        System.out.println("Entrando al metodo para agregar al Arriba");
         Optional<Curso> cursoO = cursoDao.findById(idCurso);
         if (cursoO.isPresent()) {
-
+            System.out.println("Entrando al metodo para agregar al usuario");
             Usuario usuarioCreado = usuarioFein.saveUsaurio(usuario);
             Curso curso = cursoO.get();
             CursoUsuario cursoUsuario = new CursoUsuario();
@@ -90,15 +91,16 @@ public class CursosServiceIMP implements ICursosService {
 
         Optional<Curso> cursoO = cursoDao.findById(idCurso);
         if (cursoO.isPresent()) {
-
-            Usuario usuarioDb = usuarioFein.getUsuario(idCurso);
+            System.out.println("Presente en el metodo " + usuario.getId());
+            Usuario usuarioDb = usuarioFein.getUsuario(usuario.getId());
+            System.out.println("Id dle usuario de la base de datos " + usuarioDb.getId());
             Curso curso = cursoO.get();
             CursoUsuario cursoUsuario = new CursoUsuario();
             cursoUsuario.setUsuarioId(usuario.getId());
             curso.eliminarUsario(cursoUsuario);
 
             cursoDao.save(curso);
-            return Optional.of(usuarioDb);
+            return Optional.of(usuario);
         }
         return Optional.empty();
     }

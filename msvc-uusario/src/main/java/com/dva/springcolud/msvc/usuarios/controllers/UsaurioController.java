@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuario")
+@CrossOrigin(origins = "*")
 public class UsaurioController {
 
     @Autowired
@@ -49,14 +51,15 @@ public class UsaurioController {
     @PostMapping
     public ResponseEntity<?> guardar(@Valid @RequestBody Usuario usuario, BindingResult result) {
 
-        if (usuarioService.buscarPorEmail(usuario).isPresent()) {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", "El email ya existe"));
-        }
+        // if (usuarioService.buscarPorEmail(usuario).isPresent()) {
+        // return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje",
+        // "El email ya existe"));
+        // }
 
-        if (result.hasErrors()) {
-            System.err.println("Entra al metodo");
-            return ResponseEntity.accepted().body(this.mensajesError(result));
-        }
+        // if (result.hasErrors()) {
+        // System.err.println("Entra al metodo");
+        // return ResponseEntity.accepted().body(this.mensajesError(result));
+        // }
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));
     }
 
