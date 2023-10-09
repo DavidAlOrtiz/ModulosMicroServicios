@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dva.springcolud.msvc.usuarios.models.entities.Usuario;
@@ -96,6 +97,11 @@ public class UsaurioController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/usuarios-por-Curso")
+    public ResponseEntity<?> getUsuarioPorCurso(@RequestParam List<Long> ids) {
+        return ResponseEntity.ok().body(usuarioService.getUsaurioById(ids));
+    }
+
     private Map<String, String> mensajesError(BindingResult result) {
         Map<String, String> errores = new HashMap<>();
         result.getAllErrors().forEach(p -> {
@@ -104,4 +110,5 @@ public class UsaurioController {
         });
         return errores;
     }
+
 }

@@ -2,9 +2,12 @@ package com.dva.springboot.msvc.cursos.mscursos.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dva.springboot.msvc.cursos.mscursos.DAO.CusrosDAO;
 import com.dva.springboot.msvc.cursos.mscursos.entities.Usuario;
@@ -22,21 +25,25 @@ public class CursosServiceIMP implements ICursosService {
     private UsuarioFeingRepo usuarioFein;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Curso> getCursos() {
         return (List<Curso>) cursoDao.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Curso> getById(Long id) {
         return cursoDao.findById(id);
     }
 
     @Override
+    @Transactional
     public Curso save(Curso curso) {
         return cursoDao.save(curso);
     }
 
     @Override
+    @Transactional
     public Curso update(Long id, Curso curso) {
         Optional<Curso> cursoNuevo = this.getById(id);
         if (cursoNuevo.isPresent()) {
@@ -47,11 +54,13 @@ public class CursosServiceIMP implements ICursosService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         cursoDao.deleteById(id);
     }
 
     @Override
+    @Transactional
     public Optional<Usuario> agregarUsuario(Usuario usuario, Long idCurso) {
         Optional<Curso> o = cursoDao.findById(idCurso);
         if (o.isPresent()) {
@@ -68,6 +77,7 @@ public class CursosServiceIMP implements ICursosService {
     }
 
     @Override
+    @Transactional
     public Optional<Usuario> crearUsuario(Usuario usuario, Long idCurso) {
         System.out.println("Entrando al metodo para agregar al Arriba");
         Optional<Curso> cursoO = cursoDao.findById(idCurso);
@@ -87,6 +97,7 @@ public class CursosServiceIMP implements ICursosService {
     }
 
     @Override
+    @Transactional
     public Optional<Usuario> eliminarUsuario(Usuario usuario, Long idCurso) {
 
         Optional<Curso> cursoO = cursoDao.findById(idCurso);
@@ -103,6 +114,28 @@ public class CursosServiceIMP implements ICursosService {
             return Optional.of(usuario);
         }
         return Optional.empty();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Curso> porIdUsuarioCurso(Long id) {
+        Optional<Curso> o = cursoDao.findById(id);
+        if (o.isPresent()) {
+            Curso curso = o.get();
+            if (!curso.getCursoUsuarios().isEmpty()) {
+                List<Long> ids = curso.getCursoUsuarios().stream().map(p -> p.getUsuarioId())
+                        .collect(Collectors.toList());
+                List<Usuario> usuairosFeing = usuarioFein.getUsuarioPorCurso(ids);
+                curso.setUsuarios(usuairosFeing);
+            }
+            return Optional.of(curso);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void eliminarUsarioCursoId(Long id) {
+        cursoDao.eliminarCursoUsuario(id);
     }
 
 }

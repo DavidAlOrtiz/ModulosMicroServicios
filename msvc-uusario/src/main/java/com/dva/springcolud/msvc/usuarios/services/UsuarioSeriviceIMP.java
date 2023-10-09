@@ -51,4 +51,10 @@ public class UsuarioSeriviceIMP implements IUsuriosServices {
         return repository.existsByEmail(email);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Usuario> getUsaurioById(List<Long> ids) {
+        return (List<Usuario>) repository.findAllById(ids);
+    }
+
 }

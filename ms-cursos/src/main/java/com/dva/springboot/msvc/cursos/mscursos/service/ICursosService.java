@@ -23,4 +23,8 @@ public interface ICursosService {
     Optional<Usuario> crearUsuario(Usuario usuario, Long idCurso);
 
     Optional<Usuario> eliminarUsuario(Usuario usuario, Long idCurso);
+
+    Optional<Curso> porIdUsuarioCurso(Long id);
+
+    void eliminarUsarioCursoId(Long id);
 }
