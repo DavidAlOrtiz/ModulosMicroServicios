@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dva.springcolud.msvc.usuarios.client.CursosClienteFeing;
 import com.dva.springcolud.msvc.usuarios.models.entities.Usuario;
 import com.dva.springcolud.msvc.usuarios.repositories.UsuarioRepository;
 
@@ -15,6 +16,9 @@ public class UsuarioSeriviceIMP implements IUsuriosServices {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    CursosClienteFeing clienteFeing;
 
     @Override
     @Transactional(readOnly = true)
@@ -38,6 +42,7 @@ public class UsuarioSeriviceIMP implements IUsuriosServices {
     @Transactional
     public void delete(Long id) {
         repository.deleteById(id);
+        clienteFeing.eliminaUsuario(id);
     }
 
     @Override
