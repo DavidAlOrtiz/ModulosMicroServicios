@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dva.springcolud.msvc.usuarios.client.CursosClienteFeing;
+import com.dva.springcolud.msvc.usuarios.client.CursoClienteFeing;
 import com.dva.springcolud.msvc.usuarios.models.entities.Usuario;
 import com.dva.springcolud.msvc.usuarios.repositories.UsuarioRepository;
 
@@ -18,7 +18,7 @@ public class UsuarioSeriviceIMP implements IUsuriosServices {
     private UsuarioRepository repository;
 
     @Autowired
-    CursosClienteFeing clienteFeing;
+    CursoClienteFeing clienteFeing;
 
     @Override
     @Transactional(readOnly = true)
