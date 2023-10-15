@@ -47,23 +47,14 @@ public class CursoUsuario implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+
         if (this == obj)
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
-            return false;
-        CursoUsuario other = (CursoUsuario) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (usuarioId == null) {
-            if (other.usuarioId != null)
-                return false;
-        } else if (!usuarioId.equals(other.usuarioId))
-            return false;
+        CursoUsuario a = (CursoUsuario) obj;
+        if (this.usuarioId == a.usuarioId)
+            return true;
         return true;
     }
 

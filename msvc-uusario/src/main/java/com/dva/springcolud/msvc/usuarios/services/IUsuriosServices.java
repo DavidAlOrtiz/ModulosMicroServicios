@@ -18,4 +18,6 @@ public interface IUsuriosServices {
 
     boolean emailExiste(String email);
 
+    List<Usuario> getUsaurioById(List<Long> ids);
+
 }
