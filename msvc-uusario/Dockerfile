@@ -7,7 +7,8 @@ COPY ./msvc-uusario/.mvn ./.mvn
 COPY ./msvc-uusario/mvnw .
 COPY ./msvc-uusario/pom.xml .
 
-RUN ./mvnw clean package -Dmaven.test.skip=true -Dmaven.main.skip -Dspring-boot.repackage.skip && -r ./target/
+RUN ./mvnw clean package -Dmaven.test.skip=true -Dmaven.main.skip -Dspring-boot.repackage.skip && -rf ./target/
+#RUN ./mvnw dependecy:go-offline
 
 COPY ./msvc-uusario/src ./src
 

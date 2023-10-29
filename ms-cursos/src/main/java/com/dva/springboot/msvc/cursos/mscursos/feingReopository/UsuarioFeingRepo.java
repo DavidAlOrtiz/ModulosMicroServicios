@@ -17,7 +17,7 @@ import jakarta.websocket.server.PathParam;
 //Defiene el servicio con el cual tendra comunicacion 
 //Nuestro micro servicio
 
-@FeignClient(name = "msvc-usuario", url = "localhost:8001/usuario")
+@FeignClient(name = "msvc-usuario", url = "msvc-usuario:8001/usuario")
 public interface UsuarioFeingRepo {
 
     @GetMapping("/{id}")
