@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  msvc-usuarios:
+    #images:
+    build:
+      context: ./
+      dockerfile: ./ms-cursos/Dockerfile
+    ports:
+      - "8001:8001"
+    env_files: ./msvc-usuarios/.env
+    networks:
+      - spring
+    depeds_on:
+      - mysql_18
+    restart: always
+  msvc-cursos:
+    #images:
+    build:
+      context: ./
+      dockerfile: ./ms-cursos/Dockerfile
+    ports:
+      - "8001:8002"
+    networks:
+      - spring
+    depends_on:
+      - postgrest14
+      - msvc-usuarios
+    restart: always
+  mysql_18:
+    images:
+    ports:
+      - "3307:3306"
+    enviroment: MYSQL_ROOT_PASSWORD:sasa
+      MYSQL_DATABASE:msvc-usuarios
+  postgrest14:
+
+valumes:
+  -
+networks:
+  spring:
+    name: spring

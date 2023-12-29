@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,12 @@ import jakarta.validation.Valid;
 @RestController
 public class CursoController {
 
+    private final ICursosService cursosService;
+
     @Autowired
-    private ICursosService cursosService;
+    public CursoController(ICursosService cursosService) {
+        this.cursosService = cursosService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Curso>> getCursos() {
@@ -116,7 +119,6 @@ public class CursoController {
         Optional<Usuario> o;
         try {
             o = cursosService.crearUsuario(usuario, cursoId);
-            System.err.println("No se encontro nada " + o.orElse(null));
         } catch (FeignException e) {
             return ResponseEntity.badRequest()
                     .body(Collections.singletonMap("mensaje", "problemas con la comunicacion " + e.getMessage()));
@@ -134,7 +136,6 @@ public class CursoController {
         try {
             o = cursosService.eliminarUsuario(usuario, cursoId);
         } catch (FeignException e) {
-            System.err.println(cursoId);
             return ResponseEntity.badRequest()
                     .body(Collections.singletonMap("mensaje", "error en la comunicacion " + e.getMessage()));
         }

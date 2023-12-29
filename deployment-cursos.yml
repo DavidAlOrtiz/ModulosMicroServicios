@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: msvc-cursos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msvc-curso
+  template:
+    metadata: 
+      labels:
+        app: msvc-curso
+    spec:
+      containers:
+        - name : curso
+          image: aguzf/curso:latest
+          ports:
+            - containerPort: 8002
+          env:
+            - name: PORT
+              value: 8002
+            - name: DB_HOST
+              value: postgrest14:5432
+            - name: DB_DATABASE
+              value: msvc_curso
+            - name: DB_USER
+              value: postgres
+            - name: DB_PASSWORD
+              value: sasa
+            - name: USUARIOS_URL
+              value: msvc-usuarios:8001
