@@ -22,3 +22,11 @@ spec:
               value: sasa
             - name: POSTGRES_DB
               value: msvc_curso
+          volumeMounts:
+            - name: data-postgres
+              mountPath: /var/lib/mysql
+      volumes:
+        - name : data-postgres
+          hostPath:
+            path: /var/lib/mysql
+            type: DirectoryOrCreate
