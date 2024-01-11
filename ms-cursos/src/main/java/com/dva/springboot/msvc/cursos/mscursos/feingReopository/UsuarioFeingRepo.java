@@ -14,7 +14,7 @@ import com.dva.springboot.msvc.cursos.mscursos.entities.Usuario;
 //Defiene el servicio con el cual tendra comunicacion 
 //Nuestro micro servicio
 
-@FeignClient(name = "msvc-usuario", url = "msvc-usuario:8001/usuario")
+@FeignClient(name = "msvc-usuario")
 public interface UsuarioFeingRepo {
 
     @GetMapping("/{id}")
