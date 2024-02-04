@@ -1,0 +1,16 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          msvc-usuarios-cliente:
+            provider: spring
+            client-id: usuario-client
+            client-secret: 12345
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8001/authoritaztion"
+            scope: read
+            client-name: msvc-usuarios-client
+        provider:
+          spring:
+            issuer-uri: http://127.0.0.1:9000
